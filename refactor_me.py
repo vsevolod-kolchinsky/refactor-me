@@ -29,6 +29,7 @@ class ExpencesManager:
 
 if __name__ == '__main__':
     expenses = ExpencesManager()
-    expenses.add([Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1)])
+    test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1))
+    expenses.add(test_expenses)
     expenses.report(expenses.sum(2))
     
