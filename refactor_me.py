@@ -3,24 +3,32 @@
 from collections import namedtuple, defaultdict
 from operator import itemgetter
 
-Expense = namedtuple('Expense', ('type_', 'amount'))
+Expense = namedtuple('Expense', ('category', 'amount'))
 
 
-def sum_expenses(expenses, min_amount=0):
-    aggregated_expenses = defaultdict(int)
-    for expense in expenses:
-        amount = expense.amount
-        if amount >= min_amount:
-            aggregated_expenses[expense.type_] += amount
-    return aggregated_expenses
+class ExpencesManager:
+    _buffer = []
 
-
-def print_expenses(expenses):
-    for expense, amount in sorted(expenses.items(), key=itemgetter(1)):
-        print(expense, amount)
+    def add(self, expenses):
+        for expense in expenses:
+            self._buffer.append(expense)
+            
+    def sum(self, treshold=0):
+        # do not include expenses less than treshold
+        aggregated_expenses = defaultdict(int)
+        for expense in self._buffer:
+            if expense.amount >= treshold:
+                aggregated_expenses[expense.category] += expense.amount
+        return aggregated_expenses
+    
+    @staticmethod
+    def report(expenses):
+        for category, amount in sorted(expenses.items(), key=itemgetter(1)):
+            print(f"{category}: {amount}")
 
 
 if __name__ == '__main__':
-    # TODO(dmu) HIGH: Use static fixtures and dynamic fixture framework instead
-    test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1))
-    print_expenses(sum_expenses(test_expenses, 2))
+    expenses = ExpencesManager()
+    expenses.add([Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1)])
+    expenses.report(expenses.sum(2))
+    
