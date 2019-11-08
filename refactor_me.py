@@ -31,5 +31,5 @@ if __name__ == '__main__':
     expenses = ExpencesManager()
     test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1))
     expenses.add(test_expenses)
-    expenses.report(expenses.by_category(2))
+    expenses.report(expenses.by_category(treshold=2))
     
