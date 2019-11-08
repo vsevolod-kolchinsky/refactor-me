@@ -9,6 +9,11 @@ Expense = namedtuple('Expense', ('category', 'amount'))
 class ExpencesManager:
     _buffer = ()
 
+    @staticmethod
+    def report(expenses):
+        for category, amount in sorted(expenses.items(), key=itemgetter(1)):
+            print(f"{category}: {amount}")
+
     def add(self, expenses):
         for expense in expenses:
             self._buffer += (expense, )
@@ -21,11 +26,6 @@ class ExpencesManager:
                 aggregated_expenses[expense.category] += expense.amount
         return aggregated_expenses
     
-    @staticmethod
-    def report(expenses):
-        for category, amount in sorted(expenses.items(), key=itemgetter(1)):
-            print(f"{category}: {amount}")
-
 
 if __name__ == '__main__':
     expenses = ExpencesManager()
