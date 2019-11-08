@@ -7,13 +7,13 @@ Expense = namedtuple('Expense', ('category', 'amount'))
 
 
 class ExpencesManager:
-    _buffer = []
+    _buffer = ()
 
     def add(self, expenses):
         for expense in expenses:
-            self._buffer.append(expense)
+            self._buffer += (expense, )
             
-    def sum(self, treshold=0):
+    def by_category(self, treshold=0):
         # do not include expenses less than treshold
         aggregated_expenses = defaultdict(int)
         for expense in self._buffer:
@@ -31,5 +31,5 @@ if __name__ == '__main__':
     expenses = ExpencesManager()
     test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1))
     expenses.add(test_expenses)
-    expenses.report(expenses.sum(2))
+    expenses.report(expenses.by_category(2))
     
