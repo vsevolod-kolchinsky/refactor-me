@@ -6,13 +6,8 @@ from operator import itemgetter
 Expense = namedtuple('Expense', ('category', 'amount'))
 
 
-class ExpencesManager:
+class BaseExpencesManager:
     _buffer = ()
-
-    @staticmethod
-    def report(expenses):
-        for category, amount in sorted(expenses.items(), key=itemgetter(1)):
-            print(f"{category}: {amount}")
 
     def add(self, expenses):
         for expense in expenses:
@@ -25,6 +20,13 @@ class ExpencesManager:
             if expense.amount >= treshold:
                 aggregated_expenses[expense.category] += expense.amount
         return aggregated_expenses
+
+
+class ExpencesManager(BaseExpencesManager):
+    @staticmethod
+    def report(expenses):
+        for category, amount in sorted(expenses.items(), key=itemgetter(1)):
+            print(f"{category}: {amount}")
 
 
 if __name__ == '__main__':
