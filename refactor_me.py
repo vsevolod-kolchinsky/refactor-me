@@ -17,7 +17,7 @@ class ExpencesManager:
     def add(self, expenses):
         for expense in expenses:
             self._buffer += (expense, )
-            
+
     def by_category(self, treshold=0):
         # do not include expenses less than treshold
         aggregated_expenses = defaultdict(int)
@@ -25,11 +25,11 @@ class ExpencesManager:
             if expense.amount >= treshold:
                 aggregated_expenses[expense.category] += expense.amount
         return aggregated_expenses
-    
+
 
 if __name__ == '__main__':
     expenses = ExpencesManager()
-    test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3), Expense('dog', 1))
+    test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3),
+                     Expense('dog', 1))
     expenses.add(test_expenses)
     expenses.report(expenses.by_category(treshold=2))
-    
