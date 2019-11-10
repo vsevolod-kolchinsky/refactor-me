@@ -7,17 +7,16 @@ Expense = namedtuple('Expense', ('category', 'amount'))
 
 
 class BaseExpencesManager:
-    _buffer = ()
+    expenses = []
 
-    def add(self, expenses):
-        for expense in expenses:
-            self._buffer += (expense, )
+    def add(self, expense):
+        self.expenses.append(expense)
 
-    def by_category(self, treshold=0):
-        # do not include expenses less than treshold
+    def aggregate_by_category(self, expense_threshold=0):
+        # do not include expenses less than threshold
         aggregated_expenses = defaultdict(int)
-        for expense in self._buffer:
-            if expense.amount >= treshold:
+        for expense in self.expenses:
+            if expense.amount >= expense_threshold:
                 aggregated_expenses[expense.category] += expense.amount
         return aggregated_expenses
 
@@ -26,12 +25,13 @@ class ExpencesManager(BaseExpencesManager):
     @staticmethod
     def report(expenses):
         for category, amount in sorted(expenses.items(), key=itemgetter(1)):
-            print(f"{category}: {amount}")
+            print(f'{category}: {amount}')
 
 
 if __name__ == '__main__':
     expenses = ExpencesManager()
     test_expenses = (Expense('food', 4), Expense('food', 3), Expense('car', 3),
                      Expense('dog', 1))
-    expenses.add(test_expenses)
-    expenses.report(expenses.by_category(treshold=2))
+    for expense in test_expenses:
+        expenses.add(expense)
+    expenses.report(expenses.aggregate_by_category(expense_threshold=2))
