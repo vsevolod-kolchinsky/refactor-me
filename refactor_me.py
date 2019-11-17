@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+__all__ = ["Expense", "BaseExpencesManager", "ExpencesManager"]
+
 from collections import defaultdict, namedtuple
 from operator import itemgetter
 
@@ -16,8 +18,9 @@ class BaseExpencesManager:
         # do not include expenses less than threshold
         aggregated_expenses = defaultdict(int)
         for expense in self.expenses:
-            if expense.amount >= expense_threshold:
-                aggregated_expenses[expense.category] += expense.amount
+            expense_category, expense_amount = expense
+            if expense_amount >= expense_threshold:
+                aggregated_expenses[expense_category] += expense_amount
         return aggregated_expenses
 
 
