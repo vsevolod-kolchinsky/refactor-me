@@ -27,7 +27,8 @@ class BaseExpencesManager:
 class ExpencesManager(BaseExpencesManager):
     @staticmethod
     def report(expenses):
-        for category, amount in sorted(expenses.items(), key=itemgetter(1)):
+        sorted_expenses = sorted(expenses.items(), key=itemgetter(1))
+        for category, amount in sorted_expenses:
             print(f"{category}: {amount}")
 
 
